@@ -1,0 +1,5 @@
+{
+  "name": "BA Cluster Analytics",
+  "description": "Intelligent Business Area clustering and analysis tool using Gemini API for executive insights.",
+  "requestFramePermissions": []
+}
