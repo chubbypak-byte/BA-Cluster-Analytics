@@ -14,6 +14,7 @@ export interface ClusterData {
   id: string;
   name: string;
   description: string; // คำอธิบายกลุ่ม
+  customerPersona: string; // รายละเอียดประเภทลูกค้า (ใครบ้าง)
   characteristics: string[]; // ลักษณะเด่น
   memberBAs: string[]; // รายชื่อ BA ในกลุ่มนี้
 }

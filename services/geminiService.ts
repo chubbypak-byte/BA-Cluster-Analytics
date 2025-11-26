@@ -22,6 +22,7 @@ export const analyzeDataWithGemini = async (data: AggregatedBA[]): Promise<Analy
             id: { type: Type.STRING },
             name: { type: Type.STRING, description: "ชื่อกลุ่มภาษาไทยที่สื่อความหมาย (เช่น 'กลุ่มยอดซื้อสูง')" },
             description: { type: Type.STRING, description: "คำอธิบายละเอียดเกี่ยวกับพฤติกรรมของกลุ่มนี้" },
+            customerPersona: { type: Type.STRING, description: "อธิบายรายละเอียดประเภทลูกค้า: พวกเขาคือใคร? (Who are they?), มีลักษณะธุรกิจอย่างไร? เจาะลึกโปรไฟล์" },
             characteristics: { 
               type: Type.ARRAY, 
               items: { type: Type.STRING },
@@ -33,22 +34,22 @@ export const analyzeDataWithGemini = async (data: AggregatedBA[]): Promise<Analy
               description: "รายชื่อ BA ที่อยู่ในกลุ่มนี้"
             }
           },
-          required: ["id", "name", "description", "characteristics", "memberBAs"]
+          required: ["id", "name", "description", "customerPersona", "characteristics", "memberBAs"]
         }
       },
       executiveSummary: {
         type: Type.OBJECT,
         properties: {
-          overview: { type: Type.STRING, description: "บทสรุปสำหรับผู้บริหาร" },
+          overview: { type: Type.STRING, description: "บทสรุปสำหรับผู้บริหาร เน้น Insight ที่สำคัญ" },
           strategicRecommendations: { 
             type: Type.ARRAY, 
             items: { type: Type.STRING },
-            description: "คำแนะนำเชิงกลยุทธ์"
+            description: "คำแนะนำเชิงกลยุทธ์ที่นำไปปฏิบัติได้จริง (Actionable Items)"
           },
           policyImplications: { 
             type: Type.ARRAY, 
             items: { type: Type.STRING },
-            description: "นัยยะเชิงนโยบาย"
+            description: "นัยยะเชิงนโยบายระยะยาว (Long-term Policy)"
           }
         },
         required: ["overview", "strategicRecommendations", "policyImplications"]
@@ -58,7 +59,7 @@ export const analyzeDataWithGemini = async (data: AggregatedBA[]): Promise<Analy
   };
 
   const prompt = `
-    You are a Senior Data Analyst and Business Strategist.
+    You are a Senior Data Analyst and Business Strategist for a large enterprise.
     
     I have aggregated transaction data for different Business Areas (BA).
     Data fields:
@@ -69,10 +70,11 @@ export const analyzeDataWithGemini = async (data: AggregatedBA[]): Promise<Analy
     - stdDevAmount: Variance in transaction value
 
     Task:
-    1. Perform a logical clustering analysis on this data to group BAs into 3 distinct segments (e.g., High Value/High Volume, Specialized/Niche, Low Value/Mass).
+    1. Perform a logical clustering analysis on this data to group BAs into 3 distinct segments based on their value and volume patterns.
     2. Assign each BA to one cluster.
     3. Provide a detailed analysis in Thai Language (ภาษาไทย).
-    4. Provide specific executive insights for strategic planning.
+    4. **Crucial**: For "customerPersona", explicitly identify WHO these BAs likely represent based on the data pattern (e.g., "Major Dealers", "Small Retailers", "Ad-hoc Contractors") and describe their nature in detail.
+    5. Provide high-level executive insights suitable for policy making.
 
     Input Data:
     ${dataContext}

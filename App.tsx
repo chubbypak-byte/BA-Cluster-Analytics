@@ -34,60 +34,96 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-tr from-indigo-500 to-purple-500 w-8 h-8 rounded-lg shadow-sm"></div>
-            <h1 className="text-xl font-bold text-slate-800">BA Intelligence Hub</h1>
+    <div className="min-h-screen bg-slate-50 font-sans">
+      {/* Professional Header */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="w-10 h-10 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-200 flex items-center justify-center text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <path fillRule="evenodd" d="M3 6a3 3 0 013-3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm4.5 7.5a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zm3.75-1.5a.75.75 0 00-1.5 0v4.5a.75.75 0 001.5 0V12zm2.25-3a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0V9.75A.75.75 0 0113.5 9zm3.75-1.5a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V7.5z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">Executive BA Intelligence</h1>
+              <p className="text-xs text-slate-500 font-medium tracking-wide uppercase">Powered by Gemini AI</p>
+            </div>
           </div>
-          <div className="text-sm text-slate-500 hidden sm:block">
-            Powered by Gemini 2.5
-          </div>
+          
+          {state === AppState.SUCCESS && (
+             <button 
+                onClick={() => setState(AppState.IDLE)}
+                className="group flex items-center space-x-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-all text-sm font-semibold"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-slate-500 group-hover:text-slate-700">
+                  <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                </svg>
+                <span>New Analysis</span>
+             </button>
+          )}
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Content Area */}
+      <main className="max-w-7xl mx-auto px-6 py-10">
         
         {state === AppState.IDLE && (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in-up">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">Business Area Clustering</h2>
-            <p className="text-slate-600 mb-8 text-center max-w-lg">
-              Upload your transaction CSV (`H_ZCSR181H_Cleaned...`) to automatically group Business Areas and generate executive insights using AI.
-            </p>
+          <div className="flex flex-col items-center justify-center min-h-[70vh] animate-fade-in-up">
+            <div className="text-center max-w-2xl mb-12">
+              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
+                Unlock <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Hidden Value</span> in Your Transactions
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Upload your business area (BA) data to automatically generate executive-level segmentation, revenue insights, and strategic policy recommendations using advanced AI.
+              </p>
+            </div>
             <FileUpload onFileSelect={handleFileSelect} disabled={false} />
           </div>
         )}
 
         {state === AppState.PROCESSING_DATA && (
-          <div className="flex flex-col items-center justify-center min-h-[50vh]">
-             <div className="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
-             <p className="text-lg font-medium text-slate-700">Processing CSV Data...</p>
-             <p className="text-slate-500">Aggregating transactions by Business Area</p>
+          <div className="flex flex-col items-center justify-center min-h-[60vh]">
+             <div className="relative">
+               <div className="w-20 h-20 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div>
+               <div className="absolute inset-0 flex items-center justify-center">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6 text-indigo-600">
+                   <path fillRule="evenodd" d="M2 3.75A.75.75 0 012.75 3h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 3.75zm0 4.167a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75zm0 4.166a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75zm0 4.167a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clipRule="evenodd" />
+                 </svg>
+               </div>
+             </div>
+             <h3 className="text-xl font-bold text-slate-800 mt-8 mb-2">Crunching Numbers</h3>
+             <p className="text-slate-500">Aggregating transaction data...</p>
           </div>
         )}
 
         {state === AppState.ANALYZING_AI && (
-          <div className="flex flex-col items-center justify-center min-h-[50vh]">
-             <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4"></div>
-             <p className="text-lg font-medium text-slate-700">Consulting Gemini AI...</p>
-             <p className="text-slate-500">Identifying clusters and generating strategic insights</p>
+          <div className="flex flex-col items-center justify-center min-h-[60vh]">
+             <div className="relative">
+               <div className="w-20 h-20 border-4 border-violet-100 border-t-violet-600 rounded-full animate-spin"></div>
+               <div className="absolute inset-0 flex items-center justify-center">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6 text-violet-600">
+                   <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zM10 15a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zM10 7a3 3 0 100 6 3 3 0 000-6zM15.657 5.404a.75.75 0 10-1.06-1.06l-1.061 1.06a.75.75 0 001.06 1.06l1.06-1.06zM6.464 14.596a.75.75 0 10-1.06-1.06l-1.06 1.06a.75.75 0 001.06 1.06l1.06-1.06zM18 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM5 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 015 10zM14.596 15.657a.75.75 0 001.06-1.06l-1.06-1.061a.75.75 0 10-1.06 1.06l1.06 1.06zM5.404 6.464a.75.75 0 001.06-1.06l-1.06-1.06a.75.75 0 10-1.061 1.06l1.06 1.06z" />
+                 </svg>
+               </div>
+             </div>
+             <h3 className="text-xl font-bold text-slate-800 mt-8 mb-2">AI Analysis in Progress</h3>
+             <p className="text-slate-500">Generating clusters and executive insights...</p>
           </div>
         )}
 
         {state === AppState.ERROR && (
           <div className="flex flex-col items-center justify-center min-h-[50vh]">
-            <div className="bg-red-50 p-6 rounded-xl border border-red-100 max-w-lg text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h3 className="text-lg font-semibold text-red-800 mb-2">Analysis Failed</h3>
-              <p className="text-red-600 mb-6">{error}</p>
+            <div className="bg-red-50 p-8 rounded-2xl border border-red-100 max-w-lg text-center shadow-sm">
+              <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Analysis Interrupted</h3>
+              <p className="text-slate-600 mb-8">{error}</p>
               <button 
                 onClick={() => setState(AppState.IDLE)}
-                className="px-4 py-2 bg-white border border-red-200 text-red-700 rounded-lg hover:bg-red-50 transition shadow-sm"
+                className="w-full px-4 py-3 bg-white border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition shadow-sm"
               >
                 Try Again
               </button>
@@ -96,18 +132,7 @@ export default function App() {
         )}
 
         {state === AppState.SUCCESS && analysis && (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-slate-900">Analysis Results</h2>
-              <button 
-                onClick={() => setState(AppState.IDLE)}
-                className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
-              >
-                Start New Analysis
-              </button>
-            </div>
-            <AnalysisView data={data} analysis={analysis} />
-          </div>
+          <AnalysisView data={data} analysis={analysis} />
         )}
       </main>
     </div>
