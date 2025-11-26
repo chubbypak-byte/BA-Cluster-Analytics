@@ -1,4 +1,4 @@
-import { AggregatedBA, CsvRow } from '../types';
+import { AggregatedBA } from '../types';
 
 // Helper to calculate standard deviation
 const calculateStdDev = (values: number[], mean: number): number => {
